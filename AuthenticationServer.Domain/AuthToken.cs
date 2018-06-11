@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthenticationServer.Domain
 {
-    public class UserAuthTokens
+    public class AuthToken
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id {get;set;}
-        public int UserId {get;set;}
-        public int AuthTokenId {get;set;}
+        public string Token { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
-        public User Users {get;set;}
-        public AuthToken AuthTokens{get;set;}
+        public ICollection<UserAuthTokens> UsersAuthTokens{get;set;}
     }
 }

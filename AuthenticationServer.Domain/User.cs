@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,10 +15,8 @@ namespace AuthenticationServer.Domain
         public string Login { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
-        public DateTime LastLogin { get; set; }
+        public DateTime? LastLogin { get; set; }
 
-        [ForeignKey("UserAuthTokens")]
-        public UserAuthTokens UsersAuthTokens { get; set; }
-        public int UsersAuthTokensId { get; set; }
+        public ICollection<UserAuthTokens> UsersAuthTokens{get;set;}
     }
 }

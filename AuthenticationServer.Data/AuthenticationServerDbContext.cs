@@ -9,12 +9,13 @@ namespace AuthenticationServer.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<UserAuthTokens> UsersAuthTokens { get; set; }
+        public DbSet<AuthToken> AuthTokens { get; set; }
 
-        // protected override void OnModelCreating(Modelbuilder modelBuilder)
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
         // {
         //     modelBuilder.Entity<UserAuthTokens>()
-        //         .HasMany(c => c.User)
-        //         .WithOne(e => e.UserAuthTokens)
+        //         .HasMany(c => c.Users)
+        //         .WithOne(e => e.UsersAuthTokens)
         //         .IsRequired();
         // }
 
