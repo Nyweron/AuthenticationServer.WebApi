@@ -1,0 +1,11 @@
+--ENTITY FRAMEWORK CORE 2
+
+--Create migration in Data proj, run this command in WebApi
+dotnet ef migrations add InitialCreate  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+
+
+--Generate sql script, run this command in WebApi
+ dotnet ef migrations script  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+
+--Update database, run this command in WebApi
+ dotnet ef database update  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
