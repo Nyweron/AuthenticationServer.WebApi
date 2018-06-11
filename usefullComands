@@ -1,0 +1,2 @@
+dotnet ef migrations add InitialCreate  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+Create migration in Data proj, run this command in WebApi
