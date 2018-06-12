@@ -14,7 +14,7 @@ namespace AuthenticationServer.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Token = table.Column<string>(nullable: true),
+                    Token = table.Column<string>(maxLength: 256, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ExpirationDate = table.Column<DateTime>(nullable: true)
                 },
@@ -29,10 +29,10 @@ namespace AuthenticationServer.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Login = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(maxLength: 40, nullable: false),
+                    Login = table.Column<string>(maxLength: 20, nullable: false),
+                    Email = table.Column<string>(maxLength: 40, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     LastLogin = table.Column<DateTime>(nullable: true)
                 },
