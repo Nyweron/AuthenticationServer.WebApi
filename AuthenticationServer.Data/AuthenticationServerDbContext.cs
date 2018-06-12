@@ -21,6 +21,5 @@ namespace AuthenticationServer.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupPermission> GroupsPermissions { get; set; }
         public DbSet<UserGroup> UsersGroups { get; set; }
-
     }
 }
