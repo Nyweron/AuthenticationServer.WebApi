@@ -19,7 +19,7 @@ namespace AuthenticationServer.WebApi.Controllers
         public IActionResult GetUsers()
         {
             var userEntities = _userRepository.GetUsers();
-            return Ok("test");
+            return Ok(userEntities);
         }
     }
 }
