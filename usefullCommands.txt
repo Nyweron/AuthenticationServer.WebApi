@@ -3,6 +3,8 @@
 --Create migration in Data proj, run this command in WebApi
 dotnet ef migrations add InitialCreate  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
 
+--Remove migration in Data proj, run this command in WebApi (database must be removed befor run this command. Or delete record from EFMigrationsHistory table)
+dotnet ef migrations remove --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
 
 --Generate sql script, run this command in WebApi
  dotnet ef migrations script  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj

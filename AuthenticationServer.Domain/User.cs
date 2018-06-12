@@ -28,5 +28,6 @@ namespace AuthenticationServer.Domain
 
         public ICollection<UserAuthTokens> UsersAuthTokens { get; set; }
         public ICollection<Password> Passwords { get; set; }
+        public ICollection<UserGroups> UsersGroups { get; set; }
     }
 }

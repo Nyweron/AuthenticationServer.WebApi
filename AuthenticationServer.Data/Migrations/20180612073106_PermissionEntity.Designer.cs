@@ -4,14 +4,16 @@ using AuthenticationServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthenticationServer.Data.Migrations
 {
     [DbContext(typeof(AuthenticationServerDbContext))]
-    partial class AuthenticationServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180612073106_PermissionEntity")]
+    partial class PermissionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,40 +38,6 @@ namespace AuthenticationServer.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AuthTokens");
-                });
-
-            modelBuilder.Entity("AuthenticationServer.Domain.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Groups");
-                });
-
-            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermissions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GroupId");
-
-                    b.Property<int>("PermissionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("GroupsPermissions");
                 });
 
             modelBuilder.Entity("AuthenticationServer.Domain.Password", b =>
@@ -172,38 +140,6 @@ namespace AuthenticationServer.Data.Migrations
                     b.ToTable("UsersAuthTokens");
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.UserGroups", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GroupId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserGroups");
-                });
-
-            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermissions", b =>
-                {
-                    b.HasOne("AuthenticationServer.Domain.Group", "Groups")
-                        .WithMany("GroupsPermissions")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AuthenticationServer.Domain.Permission", "Permissions")
-                        .WithMany("GroupsPermissions")
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("AuthenticationServer.Domain.Password", b =>
                 {
                     b.HasOne("AuthenticationServer.Domain.User", "Users")
@@ -221,19 +157,6 @@ namespace AuthenticationServer.Data.Migrations
 
                     b.HasOne("AuthenticationServer.Domain.User", "Users")
                         .WithMany("UsersAuthTokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AuthenticationServer.Domain.UserGroups", b =>
-                {
-                    b.HasOne("AuthenticationServer.Domain.Group", "Groups")
-                        .WithMany("UsersGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AuthenticationServer.Domain.User", "Users")
-                        .WithMany("UsersGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
