@@ -1,20 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AuthenticationServer.WebApi.Services;
+using AuthenticationServer.Data;
+using AuthenticationServer.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
-
     public class UsersController : Controller
     {
-        [HttpGet("api/users")]
-        public JsonResult GetUsers()
+        private IUserRepository _userRepository;
+
+        public UsersController(IUserRepository userRepository)
         {
-            return new JsonResult(new List<object>(){
-                new {id=1,FirstName="Pierwsze Imie", LastName="Nazwisko", Login="Login1", Email="email@wp.pl", IsActive=1, LastLogin="null"}
-            });
+            _userRepository = userRepository;
+        }
+
+        [HttpGet("api/users")]
+        public IActionResult GetUsers()
+        {
+            var userEntities = _userRepository.GetUsers();
+            return Ok("test");
         }
     }
 }
