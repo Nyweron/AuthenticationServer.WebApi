@@ -11,3 +11,6 @@ dotnet ef migrations remove --project ../AuthenticationServer.Data/Authenticatio
 
 --Update database, run this command in WebApi
  dotnet ef database update  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+
+--SWAGGER
+http://localhost:5000/swagger/

@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using AuthenticationServer.Data;
+using AuthenticationServer.Domain;
 
 namespace AuthenticationServer.WebApi
 {

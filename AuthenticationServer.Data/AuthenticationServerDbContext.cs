@@ -8,6 +8,12 @@ namespace AuthenticationServer.Data
 {
     public class AuthenticationServerDbContext : DbContext
     {
+
+        public AuthenticationServerDbContext(DbContextOptions<AuthenticationServerDbContext> options) : base(options)
+        {
+            Database.Migrate();
+        }
+
         public static readonly LoggerFactory MyConsoleLoggerFactory
             = new LoggerFactory(new []
             {
