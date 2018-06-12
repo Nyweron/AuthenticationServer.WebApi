@@ -15,6 +15,6 @@ namespace AuthenticationServer.Domain
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ICollection<GroupPermissions> GroupsPermissions { get; set; }
+        public ICollection<GroupPermission> GroupsPermissions { get; set; }
     }
 }

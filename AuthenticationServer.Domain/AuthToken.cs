@@ -17,6 +17,6 @@ namespace AuthenticationServer.Domain
         public DateTime CreatedDate { get; set; }
         public DateTime? ExpirationDate { get; set; }
 
-        public ICollection<UserAuthTokens> UsersAuthTokens{get;set;}
+        public ICollection<UserAuthToken> UsersAuthTokens{get;set;}
     }
 }

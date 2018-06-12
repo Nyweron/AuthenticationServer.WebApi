@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthenticationServer.Domain
 {
-    public class UserGroups
+    public class UserGroup
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

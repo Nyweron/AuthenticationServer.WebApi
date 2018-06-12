@@ -14,7 +14,7 @@ namespace AuthenticationServer.Domain
         [MaxLength(30)]
         public string GroupName {get;set;}
 
-        public ICollection<GroupPermissions> GroupsPermissions { get; set; }
-        public ICollection<UserGroups> UsersGroups { get; set; }
+        public ICollection<GroupPermission> GroupsPermissions { get; set; }
+        public ICollection<UserGroup> UsersGroups { get; set; }
     }
 }

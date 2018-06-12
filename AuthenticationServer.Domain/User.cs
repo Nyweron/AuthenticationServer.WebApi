@@ -26,8 +26,8 @@ namespace AuthenticationServer.Domain
         public bool IsActive { get; set; }
         public DateTime? LastLogin { get; set; }
 
-        public ICollection<UserAuthTokens> UsersAuthTokens { get; set; }
+        public ICollection<UserAuthToken> UsersAuthTokens { get; set; }
         public ICollection<Password> Passwords { get; set; }
-        public ICollection<UserGroups> UsersGroups { get; set; }
+        public ICollection<UserGroup> UsersGroups { get; set; }
     }
 }

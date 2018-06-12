@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthenticationServer.Domain
 {
-    public class GroupPermissions
+    public class GroupPermission
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

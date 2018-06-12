@@ -53,7 +53,7 @@ namespace AuthenticationServer.Data.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermissions", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace AuthenticationServer.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.UserAuthTokens", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.UserAuthToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace AuthenticationServer.Data.Migrations
                     b.ToTable("UsersAuthTokens");
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.UserGroups", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.UserGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -188,10 +188,10 @@ namespace AuthenticationServer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGroups");
+                    b.ToTable("UsersGroups");
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermissions", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.GroupPermission", b =>
                 {
                     b.HasOne("AuthenticationServer.Domain.Group", "Groups")
                         .WithMany("GroupsPermissions")
@@ -212,7 +212,7 @@ namespace AuthenticationServer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.UserAuthTokens", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.UserAuthToken", b =>
                 {
                     b.HasOne("AuthenticationServer.Domain.AuthToken", "AuthTokens")
                         .WithMany("UsersAuthTokens")
@@ -225,7 +225,7 @@ namespace AuthenticationServer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AuthenticationServer.Domain.UserGroups", b =>
+            modelBuilder.Entity("AuthenticationServer.Domain.UserGroup", b =>
                 {
                     b.HasOne("AuthenticationServer.Domain.Group", "Groups")
                         .WithMany("UsersGroups")
