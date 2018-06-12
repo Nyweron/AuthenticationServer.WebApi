@@ -10,6 +10,7 @@ namespace AuthenticationServer.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserAuthTokens> UsersAuthTokens { get; set; }
         public DbSet<AuthToken> AuthTokens { get; set; }
+        public DbSet<Password> Passwords { get; set; }
 
         // protected override void OnModelCreating(ModelBuilder modelBuilder)
         // {
@@ -19,14 +20,10 @@ namespace AuthenticationServer.Data
         //         .IsRequired();
         // }
 
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connection = @"Server=DESKTOP-NJESQAR;Database=AuthenticationServer;Trusted_Connection=True;MultipleActiveResultSets=true";
             optionsBuilder.UseSqlServer(connection);
         }
-
-
     }
 }

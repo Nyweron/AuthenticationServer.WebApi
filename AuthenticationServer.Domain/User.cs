@@ -27,5 +27,6 @@ namespace AuthenticationServer.Domain
         public DateTime? LastLogin { get; set; }
 
         public ICollection<UserAuthTokens> UsersAuthTokens { get; set; }
+        public ICollection<Password> Passwords { get; set; }
     }
 }
