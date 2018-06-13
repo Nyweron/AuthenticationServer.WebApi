@@ -3,16 +3,20 @@ using AuthenticationServer.Data;
 using AuthenticationServer.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using NLog.Web;
+using Microsoft.Extensions.Logging;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
     public class UsersController : Controller
     {
         private IUserRepository _userRepository;
+        private ILogger<UsersController> _logger;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, ILogger<UsersController> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         [HttpGet("api/users")]
@@ -27,7 +31,7 @@ namespace AuthenticationServer.WebApi.Controllers
         {
             if (!_userRepository.UserExists(userId))
             {
-
+                _logger.LogInformation($"User with id {userId} wasn't found when accessing User.");
                 return NotFound();
             }
 

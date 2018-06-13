@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using AuthenticationServer.Data;
+using NLog.Extensions.Logging;
 using AuthenticationServer.WebApi.Services;
 
 namespace AuthenticationServer.WebApi
@@ -45,6 +46,8 @@ namespace AuthenticationServer.WebApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
+            loggerFactory.AddDebug();
+            loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {
