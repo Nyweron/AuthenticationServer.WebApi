@@ -11,5 +11,6 @@ namespace AuthenticationServer.WebApi.Services
     public interface IUserRepository
     {
         IEnumerable<User> GetUsers();
+        User GetUserById(int userId);
     }
 }

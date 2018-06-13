@@ -21,5 +21,12 @@ namespace AuthenticationServer.WebApi.Controllers
             var userEntities = _userRepository.GetUsers();
             return Ok(userEntities);
         }
+
+        [HttpGet("api/users/{userId}")]
+        public IActionResult Get(int userId)
+        {
+            var userEntities = _userRepository.GetUserById(userId);
+            return Ok(userEntities);
+        }
     }
 }

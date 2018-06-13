@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AuthenticationServer.Data;
 using AuthenticationServer.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.WebApi.Services
 {
@@ -17,9 +14,16 @@ namespace AuthenticationServer.WebApi.Services
             _context = context;
         }
 
+        public User GetUserById(int userId)
+        {
+            return _context.Users.Where(obj => obj.Id == userId).FirstOrDefault();
+        }
+
         public IEnumerable<User> GetUsers()
         {
             return _context.Users.ToList();
         }
+
+
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using AuthenticationServer.Domain;
+﻿using AuthenticationServer.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace AuthenticationServer.Data
 {
