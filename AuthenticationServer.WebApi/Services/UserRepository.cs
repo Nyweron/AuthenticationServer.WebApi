@@ -24,6 +24,9 @@ namespace AuthenticationServer.WebApi.Services
             return _context.Users.ToList();
         }
 
-
+        public bool UserExists(int userId)
+        {
+            return _context.Users.Any(c => c.Id == userId);
+        }
     }
 }

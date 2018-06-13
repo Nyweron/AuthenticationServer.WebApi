@@ -25,8 +25,26 @@ namespace AuthenticationServer.WebApi.Controllers
         [HttpGet("api/users/{userId}")]
         public IActionResult Get(int userId)
         {
+            if (!_userRepository.UserExists(userId))
+            {
+
+                return NotFound();
+            }
+
             var userEntities = _userRepository.GetUserById(userId);
             return Ok(userEntities);
         }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] UserDto user)
+        {
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            //TODO: Implement Realistic Implementation
+            return Created("", null);
+        }
+
     }
 }
