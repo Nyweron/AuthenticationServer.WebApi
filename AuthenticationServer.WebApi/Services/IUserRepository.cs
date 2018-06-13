@@ -13,5 +13,6 @@ namespace AuthenticationServer.WebApi.Services
         IEnumerable<User> GetUsers();
         User GetUserById(int userId);
         bool UserExists(int userId);
+        bool EmailExists(string email);
     }
 }

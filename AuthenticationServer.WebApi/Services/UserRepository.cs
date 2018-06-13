@@ -14,6 +14,8 @@ namespace AuthenticationServer.WebApi.Services
             _context = context;
         }
 
+
+
         public User GetUserById(int userId)
         {
             return _context.Users.Where(obj => obj.Id == userId).FirstOrDefault();
@@ -28,5 +30,12 @@ namespace AuthenticationServer.WebApi.Services
         {
             return _context.Users.Any(c => c.Id == userId);
         }
+
+        public bool EmailExists(string email)
+        {
+            return _context.Users.Any(c => c.Email.Equals(email));
+        }
+
+
     }
 }
