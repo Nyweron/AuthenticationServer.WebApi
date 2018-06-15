@@ -59,8 +59,8 @@ namespace AuthenticationServer.WebApi.Controllers
 
             if (_userRepository.EmailExists(user.Email))
             {
-                _logger.LogInformation($"The Email {user.Email} exist in database, email must be uniqe. UsersController/Post(UserDto user).");
-                return BadRequest($"The Email {user.Email} exist, email must be uniqe.");
+                _logger.LogInformation($"The Email {user.Email} exist in database, use other email. UsersController/Post(UserDto user).");
+                return BadRequest($"The Email {user.Email} exist, user other email.");
             }
 
             if (!ModelState.IsValid)
@@ -87,9 +87,21 @@ namespace AuthenticationServer.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public IActionResult Delete(UserDto id)
+        [HttpDelete("api/users/{id}")]
+        public IActionResult Delete(int id)
         {
+            if (!_userRepository.UserExists(id))
+            {
+                return NotFound();
+            }
+
+            var user = _userRepository.GetUserById(id);
+            _userRepository.DeleteUser(user);
+
+            if (!_userRepository.Save())
+            {
+                return StatusCode(500, "A problem happend while handling your request.");
+            }
             //TODO: Implement Realistic Implementation
             return Ok();
         }

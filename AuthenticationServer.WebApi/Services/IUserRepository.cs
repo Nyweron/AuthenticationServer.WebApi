@@ -16,6 +16,7 @@ namespace AuthenticationServer.WebApi.Services
         bool EmailExists(string email);
         void AddUser(User user);
         void AddUsers(IEnumerable<User> usersList);
+        void DeleteUser(User user);
         bool Save();
     }
 }

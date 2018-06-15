@@ -44,6 +44,11 @@ namespace AuthenticationServer.WebApi.Services
             _context.Users.AddRange(usersList);
         }
 
+        public void DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
+        }
+
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);
