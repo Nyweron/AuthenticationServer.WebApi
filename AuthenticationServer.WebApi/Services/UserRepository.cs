@@ -14,8 +14,6 @@ namespace AuthenticationServer.WebApi.Services
             _context = context;
         }
 
-
-
         public User GetUserById(int userId)
         {
             return _context.Users.Where(obj => obj.Id == userId).FirstOrDefault();
@@ -33,9 +31,22 @@ namespace AuthenticationServer.WebApi.Services
 
         public bool EmailExists(string email)
         {
-            return _context.Users.Any(c => c.Email.Equals(email));
+            return _context.Users.Any(c => c.Email == email);
         }
 
+        public void AddUser(User user)
+        {
+            _context.Users.Add(user);
+        }
 
+        public void AddUsers(IEnumerable<User> usersList)
+        {
+            _context.Users.AddRange(usersList);
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
     }
 }

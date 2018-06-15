@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AuthenticationServer.Data;
+using AuthenticationServer.Domain;
+using AuthenticationServer.WebApi.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
-using AuthenticationServer.Data;
 using NLog.Extensions.Logging;
-using AuthenticationServer.WebApi.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace AuthenticationServer.WebApi
 {
     public class Startup
     {
-  public static IConfigurationRoot Configuration;
+        public static IConfigurationRoot Configuration;
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional : false, reloadOnChange : true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional : true, reloadOnChange : true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -60,6 +61,11 @@ namespace AuthenticationServer.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Models.UserDto, User>();
             });
 
             app.UseMvc();

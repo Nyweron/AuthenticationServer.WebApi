@@ -1,10 +1,11 @@
-using AuthenticationServer.WebApi.Services;
-using AuthenticationServer.Data;
+using System;
+using AutoMapper;
 using AuthenticationServer.WebApi.Models;
+using AuthenticationServer.WebApi.Services;
+using AuthenticationServer.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using NLog.Web;
 using Microsoft.Extensions.Logging;
+
 
 namespace AuthenticationServer.WebApi.Controllers
 {
@@ -29,14 +30,22 @@ namespace AuthenticationServer.WebApi.Controllers
         [HttpGet("api/users/{userId}")]
         public IActionResult Get(int userId)
         {
-            if (!_userRepository.UserExists(userId))
+            try
             {
-                _logger.LogInformation($"User with id {userId} wasn't found when accessing to UsersController/Get(int userId).");
-                return NotFound();
-            }
+                if (!_userRepository.UserExists(userId))
+                {
+                    _logger.LogInformation($"User with id {userId} wasn't found when accessing to UsersController/Get(int userId).");
+                    return NotFound();
+                }
 
-            var userEntities = _userRepository.GetUserById(userId);
-            return Ok(userEntities);
+                var userEntities = _userRepository.GetUserById(userId);
+                return Ok(userEntities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"Exception {userId}.", ex);
+                return StatusCode(500, "Problem with your request.");
+            }
         }
 
         [HttpPost("api/users")]
@@ -52,6 +61,19 @@ namespace AuthenticationServer.WebApi.Controllers
             {
                 _logger.LogInformation($"The Email {user.Email} exist in database, email must be uniqe. UsersController/Post(UserDto user).");
                 return BadRequest($"The Email {user.Email} exist, email must be uniqe.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userEntity = Mapper.Map<User>(user);
+            _userRepository.AddUser(userEntity);
+
+            if (!_userRepository.Save())
+            {
+                return StatusCode(500, "A problem happend while handling your request.");
             }
 
             //TODO: Implement Realistic Implementation
