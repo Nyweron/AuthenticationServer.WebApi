@@ -5,7 +5,7 @@ using AuthenticationServer.WebApi.Services;
 using AuthenticationServer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
@@ -80,9 +80,37 @@ namespace AuthenticationServer.WebApi.Controllers
             return Created("", null);
         }
 
-        [HttpPut("api/users/userId")]
-        public IActionResult Put(int userId, [FromBody] UserDto user)
+        [HttpPut("api/users/{userId}")]
+        public IActionResult Put([FromBody] UserDto user, int userId)
         {
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            if (!_userRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+
+            //When user change own password.
+            // if (user.Password1 != user.Password2)
+            // {
+            //     ModelState.AddModelError("Description", "Pasword has not the same value. Change it.");
+            // }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedUser = Mapper.Map<User>(user);
+            _userRepository.UpdateUser(updatedUser);
+
+            if (!_userRepository.Save())
+            {
+                return StatusCode(500, "A problem happend while handling your request.");
+            }
             //TODO: Implement Realistic Implementation
             return Ok();
         }

@@ -17,6 +17,7 @@ namespace AuthenticationServer.WebApi.Services
         void AddUser(User user);
         void AddUsers(IEnumerable<User> usersList);
         void DeleteUser(User user);
+        void UpdateUser(User user);
         bool Save();
     }
 }
