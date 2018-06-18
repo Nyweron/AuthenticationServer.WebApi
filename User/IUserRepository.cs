@@ -1,7 +1,8 @@
+
 using System.Collections.Generic;
 using AuthenticationServer.Domain.Entities;
 
-namespace AuthenticationServer.WebApi.Services
+namespace AuthenticationServer.Repository
 {
     public interface IUserRepository
     {

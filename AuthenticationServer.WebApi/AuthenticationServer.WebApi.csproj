@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationServer.Data\AuthenticationServer.Data.csproj" />
     <ProjectReference Include="..\AuthenticationServer.Domain\AuthenticationServer.Domain.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\AuthenticationServer.Repository\AuthenticationServer.Repository.csproj" />
+ </ItemGroup>
 
 </Project>

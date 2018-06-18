@@ -3,7 +3,7 @@ using System.Linq;
 using AuthenticationServer.Data;
 using AuthenticationServer.Domain.Entities;
 
-namespace AuthenticationServer.WebApi.Services
+namespace AuthenticationServer.Repository.UserS
 {
     public class UserRepository : IUserRepository
     {

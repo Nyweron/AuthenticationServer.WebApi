@@ -3,8 +3,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AuthenticationServer.WebApi.Models;
-using AuthenticationServer.WebApi.Services;
 using AuthenticationServer.Domain.Entities;
+using AuthenticationServer.Repository.UserS;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
