@@ -1,11 +1,10 @@
 using System;
 using AutoMapper;
-using AuthenticationServer.WebApi.Models;
-using AuthenticationServer.WebApi.Services;
-using AuthenticationServer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.JsonPatch;
+using AuthenticationServer.WebApi.Models;
+using AuthenticationServer.WebApi.Services;
+using AuthenticationServer.Domain.Entities;
 
 namespace AuthenticationServer.WebApi.Controllers
 {

@@ -1,4 +1,5 @@
 ﻿using AuthenticationServer.Domain;
+using AuthenticationServer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.Data

@@ -1,5 +1,5 @@
 ﻿using AuthenticationServer.Data;
-using AuthenticationServer.Domain;
+using AuthenticationServer.Domain.Entities;
 using AuthenticationServer.WebApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

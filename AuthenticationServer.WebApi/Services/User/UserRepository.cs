@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AuthenticationServer.Data;
-using AuthenticationServer.Domain;
+using AuthenticationServer.Domain.Entities;
 
 namespace AuthenticationServer.WebApi.Services
 {
