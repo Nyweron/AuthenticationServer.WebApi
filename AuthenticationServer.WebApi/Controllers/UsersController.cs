@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.Domain.Entities;
-using AuthenticationServer.Repository.UserS;
+using AuthenticationServer.WebApi.Repository;
 
 namespace AuthenticationServer.WebApi.Controllers
 {

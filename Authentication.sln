@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi", "AuthenticationServer.WebApi\AuthenticationServer.WebApi.csproj", "{E335181B-3ED1-4CEE-AB7D-AA06A445D271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Repository", "AuthenticationServer.Repository\AuthenticationServer.Repository.csproj", "{4B89DBE5-8694-4AC9-A60F-A3AEF91026B3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

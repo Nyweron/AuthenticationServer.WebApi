@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AuthenticationServer.Domain.Entities;
 
-namespace AuthenticationServer.Repository
+namespace AuthenticationServer.WebApi.Repository
 {
     public interface IUserRepository
     {

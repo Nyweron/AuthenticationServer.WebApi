@@ -1,6 +1,6 @@
 ﻿using AuthenticationServer.Data;
 using AuthenticationServer.Domain.Entities;
-using AuthenticationServer.Repository.UserS;
+using AuthenticationServer.WebApi.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
