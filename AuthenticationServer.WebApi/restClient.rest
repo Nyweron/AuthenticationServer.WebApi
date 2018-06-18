@@ -1,0 +1,27 @@
+@url = http://localhost:5000/api
+
+@userId = 114
+
+@token = 0
+
+###
+GET {{url}}/users
+
+###
+GET {{url}}/users/{{userId}}
+
+###
+POST {{url}}/users
+Content-Type: application/json
+
+{
+  "firstName": "FirstName8",
+  "lastName": "LastName8",
+  "login": "Login8",
+  "email": "emai8l@wp.pl",
+  "isActive": true,
+  "lastLogin": null,
+  "usersAuthTokens": null,
+  "passwords": null,
+  "usersGroups": null
+}
