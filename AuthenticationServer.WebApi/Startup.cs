@@ -83,7 +83,7 @@ namespace AuthenticationServer.WebApi
 
             app.UseResponseCaching();
             app.UseMvc();
-            applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
+           // applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
     }
 }
