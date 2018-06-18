@@ -1,6 +1,6 @@
 @url = http://localhost:5000/api
 
-@userId = 114
+@userId = 115
 
 @token = 0
 
@@ -25,3 +25,6 @@ Content-Type: application/json
   "passwords": null,
   "usersGroups": null
 }
+
+###
+DELETE {{url}}/users/{{userId}}
