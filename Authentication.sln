@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Data", "AuthenticationServer.Data\AuthenticationServer.Data.csproj", "{5BB73E2B-3D8B-42A5-B139-8CB5619A7D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Data", "src\AuthenticationServer.Data\AuthenticationServer.Data.csproj", "{5BB73E2B-3D8B-42A5-B139-8CB5619A7D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Domain", "AuthenticationServer.Domain\AuthenticationServer.Domain.csproj", "{D571D2CE-94CE-4610-BF66-06BD75B9079B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Domain", "src\AuthenticationServer.Domain\AuthenticationServer.Domain.csproj", "{D571D2CE-94CE-4610-BF66-06BD75B9079B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi", "AuthenticationServer.WebApi\AuthenticationServer.WebApi.csproj", "{E335181B-3ED1-4CEE-AB7D-AA06A445D271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi", "src\AuthenticationServer.WebApi\AuthenticationServer.WebApi.csproj", "{E335181B-3ED1-4CEE-AB7D-AA06A445D271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi.Tests", "AuthenticationServer.WebApi.Tests\AuthenticationServer.WebApi.Tests.csproj", "{3B019985-6E67-4F57-A853-D17ACF972A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi.Tests", "tests\AuthenticationServer.WebApi.Tests\AuthenticationServer.WebApi.Tests.csproj", "{3B019985-6E67-4F57-A853-D17ACF972A77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Repository", "AuthenticationServer.Repository\AuthenticationServer.Repository.csproj", "{51017290-6DA5-4349-92CF-3735C311C9AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Repository", "src\AuthenticationServer.Repository\AuthenticationServer.Repository.csproj", "{51017290-6DA5-4349-92CF-3735C311C9AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Security", "AuthenticationServer.Security\AuthenticationServer.Security.csproj", "{5F813021-247E-40C7-A6DD-0B9BF1EC708A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.Security", "src\AuthenticationServer.Security\AuthenticationServer.Security.csproj", "{5F813021-247E-40C7-A6DD-0B9BF1EC708A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi.Tests.EndToEnd", "AuthenticationServer.WebApi.Tests.EndToEnd\AuthenticationServer.WebApi.Tests.EndToEnd.csproj", "{139B5A95-A761-4C19-A9C6-4725B2515282}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationServer.WebApi.Tests.EndToEnd", "tests\AuthenticationServer.WebApi.Tests.EndToEnd\AuthenticationServer.WebApi.Tests.EndToEnd.csproj", "{139B5A95-A761-4C19-A9C6-4725B2515282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
