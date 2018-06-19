@@ -1,4 +1,6 @@
 ﻿using System;
+using AuthenticationServer.WebApi.Data;
+using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -8,8 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
-using AuthenticationServer.WebApi.Data;
-using AuthenticationServer.WebApi.Settings.Options;
 
 namespace AuthenticationServer.WebApi
 {
@@ -35,26 +35,27 @@ namespace AuthenticationServer.WebApi
             services.AddMemoryCache();
             services.AddResponseCaching();
 
-
             services.Configure<DatabaseOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
-
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-           // RepositoryContainer.Update(builder);
+            // RepositoryContainer.Update(builder);
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
+            IApplicationLifetime applicationLifetime)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
@@ -75,7 +76,7 @@ namespace AuthenticationServer.WebApi
 
             app.UseResponseCaching();
             app.UseMvc();
-           // applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
+            applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
     }
 }
