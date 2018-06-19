@@ -17,3 +17,8 @@ http://localhost:5000/swagger/
 
 --Path to logs
 Authentication\AuthenticationServer.WebApi\bin\Debug\netcoreapp2.0\logs
+
+--DotNet Core 2.1
+
+--run this command in WebApi
+dotnet watch run
