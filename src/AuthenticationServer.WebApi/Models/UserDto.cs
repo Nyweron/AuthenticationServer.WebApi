@@ -1,6 +1,6 @@
 using System;
 
-namespace AuthenticationServer.Domain.Models
+namespace AuthenticationServer.WebApi.Models
 {
     public class UserDto
     {

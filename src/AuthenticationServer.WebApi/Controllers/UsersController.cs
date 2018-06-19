@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AuthenticationServer.Domain.Entities;
-using AuthenticationServer.Domain.Models;
-using AuthenticationServer.Repository.User;
+using AuthenticationServer.WebApi.Repository.User;
+using AuthenticationServer.WebApi.Entities;
+using AuthenticationServer.WebApi.Models;
 
 namespace AuthenticationServer.WebApi.Controllers
 {

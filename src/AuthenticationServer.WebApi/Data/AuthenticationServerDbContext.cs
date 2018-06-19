@@ -1,10 +1,9 @@
-﻿using AuthenticationServer.Domain;
-using AuthenticationServer.Domain.Entities;
-using AuthenticationServer.Settings.Options;
+using AuthenticationServer.WebApi.Entities;
+using AuthenticationServer.WebApi.Settings.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace AuthenticationServer.Data
+namespace AuthenticationServer.WebApi.Data
 {
     public class AuthenticationServerDbContext : DbContext
     {

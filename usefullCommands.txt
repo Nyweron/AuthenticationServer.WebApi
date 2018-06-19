@@ -1,16 +1,16 @@
 --ENTITY FRAMEWORK CORE 2
 
 --Create migration in Data proj, run this command in WebApi
-dotnet ef migrations add InitialCreate  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+dotnet ef migrations add InitialCreate
 
 --Remove migration in Data proj, run this command in WebApi (database must be removed befor run this command. Or delete record from EFMigrationsHistory table)
-dotnet ef migrations remove --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+dotnet ef migrations remove
 
 --Generate sql script, run this command in WebApi
- dotnet ef migrations script  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+ dotnet ef migrations script
 
 --Update database, run this command in WebApi
- dotnet ef database update  --project ../AuthenticationServer.Data/AuthenticationServer.Data.csproj
+ dotnet ef database update
 
 --SWAGGER
 http://localhost:5000/swagger/

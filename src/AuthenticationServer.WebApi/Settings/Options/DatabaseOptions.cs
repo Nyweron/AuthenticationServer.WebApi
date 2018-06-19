@@ -1,4 +1,4 @@
-namespace AuthenticationServer.Settings.Options
+namespace AuthenticationServer.WebApi.Settings.Options
 {
     public class DatabaseOptions
     {

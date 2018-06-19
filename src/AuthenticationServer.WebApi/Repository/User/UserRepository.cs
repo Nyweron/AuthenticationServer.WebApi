@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using AuthenticationServer.Data;
+using AuthenticationServer.WebApi.Data;
+using AuthenticationServer.WebApi.Entities;
 
-namespace AuthenticationServer.Repository.User
+namespace AuthenticationServer.WebApi.Repository.User
 {
- public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private AuthenticationServerDbContext _context;
 
@@ -13,12 +14,12 @@ namespace AuthenticationServer.Repository.User
             _context = context;
         }
 
-        public AuthenticationServer.Domain.Entities.User GetUserById(int userId)
+        public Entities.User GetUserById(int userId)
         {
             return _context.Users.Where(obj => obj.Id == userId).FirstOrDefault();
         }
 
-        public IEnumerable<AuthenticationServer.Domain.Entities.User> GetUsers()
+        public IEnumerable<Entities.User> GetUsers()
         {
             return _context.Users.ToList();
         }
@@ -33,22 +34,22 @@ namespace AuthenticationServer.Repository.User
             return _context.Users.Any(c => c.Email == email);
         }
 
-        public void AddUser(AuthenticationServer.Domain.Entities.User user)
+        public void AddUser(Entities.User user)
         {
             _context.Users.Add(user);
         }
 
-        public void AddUsers(IEnumerable<AuthenticationServer.Domain.Entities.User> usersList)
+        public void AddUsers(IEnumerable<Entities.User> usersList)
         {
             _context.Users.AddRange(usersList);
         }
 
-        public void DeleteUser(AuthenticationServer.Domain.Entities.User user)
+        public void DeleteUser(Entities.User user)
         {
             _context.Users.Remove(user);
         }
 
-        public void UpdateUser(AuthenticationServer.Domain.Entities.User user)
+        public void UpdateUser(Entities.User user)
         {
             _context.Update(user);
         }
@@ -57,6 +58,7 @@ namespace AuthenticationServer.Repository.User
         {
             return (_context.SaveChanges() >= 0);
         }
+
 
     }
 }

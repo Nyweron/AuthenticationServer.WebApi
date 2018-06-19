@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AuthenticationServer.Domain;
 
-namespace AuthenticationServer.Domain.Entities
+namespace AuthenticationServer.WebApi.Entities
 {
     public class Password
     {

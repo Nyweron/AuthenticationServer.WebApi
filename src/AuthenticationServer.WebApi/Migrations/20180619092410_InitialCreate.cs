@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AuthenticationServer.Data.Migrations
+namespace AuthenticationServer.WebApi.Migrations
 {
-    public partial class InitAuthenticationServer : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
