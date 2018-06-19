@@ -26,21 +26,37 @@ namespace AuthenticationServer.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // ===== Add Swagger ========
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Contacts API", Version = "v1" });
             });
 
+            // ===== Add services to the collection ========
             services.AddMvc();
             services.AddMemoryCache();
             services.AddResponseCaching();
 
+            // ===== Add Database options ========
             services.Configure<DatabaseOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
 
+            // ===== Create the container builder. ========
             var builder = new ContainerBuilder();
+
+            // =====  Register dependencies, populate the services from ========
+            // the collection, and build the container. If you want
+            // to dispose of the container at the end of the app,
+            // be sure to keep a reference to it as a property or field.
+            //
+            // Note that Populate is basically a foreach to add things
+            // into Autofac that are in the collection. If you register
+            // things in Autofac BEFORE Populate then the stuff in the
+            // ServiceCollection can override those things; if you register
+            // AFTER Populate those registrations can override things
+            // in the ServiceCollection. Mix and match as needed.
             builder.Populate(services);
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces()
@@ -48,6 +64,7 @@ namespace AuthenticationServer.WebApi
             // RepositoryContainer.Update(builder);
             Container = builder.Build();
 
+         // ===== Create the IServiceProvider based on the container. ========
             return new AutofacServiceProvider(Container);
         }
 
@@ -66,6 +83,7 @@ namespace AuthenticationServer.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            // ===== Add Swagger ========
             app.UseSwagger();
 
             //http://localhost:5000/swagger/

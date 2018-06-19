@@ -16,7 +16,7 @@ dotnet ef migrations remove
 http://localhost:5000/swagger/
 
 --Path to logs
-Authentication\AuthenticationServer.WebApi\bin\Debug\netcoreapp2.0\logs
+Authentication\AuthenticationServer.WebApi\bin\Debug\netcoreapp2.1\logs
 
 --DotNet Core 2.1
 
