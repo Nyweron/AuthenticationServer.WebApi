@@ -1,13 +1,11 @@
 ﻿using System;
 using AuthenticationServer.Data;
-using AuthenticationServer.Data.EF;
 using AuthenticationServer.Domain.Entities;
-using AuthenticationServer.WebApi.Repository;
+using AuthenticationServer.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -39,7 +37,7 @@ namespace AuthenticationServer.WebApi
             services.AddResponseCaching();
 
 
-            services.Configure<SqlOptions>(Configuration.GetSection("sql"));
+            services.Configure<DatabaseOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();

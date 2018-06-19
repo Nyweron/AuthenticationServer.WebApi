@@ -1,6 +1,6 @@
-﻿using AuthenticationServer.Data.EF;
-using AuthenticationServer.Domain;
+﻿using AuthenticationServer.Domain;
 using AuthenticationServer.Domain.Entities;
+using AuthenticationServer.Settings.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -8,7 +8,7 @@ namespace AuthenticationServer.Data
 {
     public class AuthenticationServerDbContext : DbContext
     {
-        private readonly IOptions<SqlOptions> _sqlOptions;
+        private readonly IOptions<DatabaseOptions> _databaseOptions;
         public DbSet<User> Users { get; set; }
         public DbSet<UserAuthToken> UsersAuthTokens { get; set; }
         public DbSet<AuthToken> AuthTokens { get; set; }
@@ -18,9 +18,9 @@ namespace AuthenticationServer.Data
         public DbSet<GroupPermission> GroupsPermissions { get; set; }
         public DbSet<UserGroup> UsersGroups { get; set; }
 
-        public AuthenticationServerDbContext(IOptions<SqlOptions> sqlOptions)
+        public AuthenticationServerDbContext(IOptions<DatabaseOptions> databaseOptions)
         {
-            _sqlOptions = sqlOptions;
+            _databaseOptions = databaseOptions;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,7 +30,7 @@ namespace AuthenticationServer.Data
                 return;
             }
 
-            if (_sqlOptions.Value.InMemory)
+            if (_databaseOptions.Value.InMemory)
             {
 
                 optionsBuilder.UseInMemoryDatabase("AuthenticationServer");
@@ -38,7 +38,7 @@ namespace AuthenticationServer.Data
                 return;
             }
 
-            optionsBuilder.UseSqlServer(_sqlOptions.Value.ConnectionString,
+            optionsBuilder.UseSqlServer(_databaseOptions.Value.ConnectionString,
                 o => o.MigrationsAssembly("AuthenticationServer.WebApi"));
         }
     }

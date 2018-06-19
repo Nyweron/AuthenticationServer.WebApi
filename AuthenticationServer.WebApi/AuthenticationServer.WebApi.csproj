@@ -35,6 +35,7 @@
     <ProjectReference Include="..\AuthenticationServer.Data\AuthenticationServer.Data.csproj" />
     <ProjectReference Include="..\AuthenticationServer.Domain\AuthenticationServer.Domain.csproj" />
     <ProjectReference Include="..\AuthenticationServer.Repository\AuthenticationServer.Repository.csproj" />
+    <ProjectReference Include="..\AuthenticationServer.Settings\AuthenticationServer.Settings.csproj" />
  </ItemGroup>
 
 </Project>

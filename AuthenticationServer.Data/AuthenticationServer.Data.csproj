@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationServer.Domain\AuthenticationServer.Domain.csproj" />
+    <ProjectReference Include="..\AuthenticationServer.Settings\AuthenticationServer.Settings.csproj" />
   </ItemGroup>
 
 </Project>

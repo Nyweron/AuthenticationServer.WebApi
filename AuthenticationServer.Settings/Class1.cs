@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AuthenticationServer.Repository
+namespace AuthenticationServer.Settings
 {
     public class Class1
     {
