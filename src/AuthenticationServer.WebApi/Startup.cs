@@ -53,9 +53,7 @@ namespace AuthenticationServer.WebApi
             RepositoryContainer.Update(builder);
             Container = builder.Build();
 
-           //services.AddScoped<IUserRepository, UserRepository>();
             return new AutofacServiceProvider(Container);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,11 +74,6 @@ namespace AuthenticationServer.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Models.UserDto, User>();
             });
 
             app.UseResponseCaching();

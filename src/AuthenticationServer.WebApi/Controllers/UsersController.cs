@@ -48,7 +48,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [HttpPost("api/users")]
-        public IActionResult Post([FromBody] UserDto user)
+        public IActionResult Post([FromBody] AuthenticationServer.Domain.Models.UserDto user)
         {
             if (user == null)
             {
@@ -80,7 +80,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [HttpPut("api/users/{userId}")]
-        public IActionResult Put([FromBody] UserDto user, int userId)
+        public IActionResult Put([FromBody] AuthenticationServer.Domain.Models.UserDto user, int userId)
         {
             if (user == null)
             {

@@ -13,6 +13,8 @@ namespace AuthenticationServer.Repository
                 .InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>()
                 .As<IUserRepository>();
+            builder.RegisterInstance(AutoMapperConfig.GetMapper())
+                .SingleInstance();
         }
     }
 }
