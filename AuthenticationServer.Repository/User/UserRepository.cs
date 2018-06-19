@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AuthenticationServer.Data;
-using AuthenticationServer.Domain.Entities;
 
-namespace AuthenticationServer.WebApi.Repository
+namespace AuthenticationServer.Repository.User
 {
-    public class UserRepository : IUserRepository
+ public class UserRepository : IUserRepository
     {
         private AuthenticationServerDbContext _context;
 
@@ -14,12 +13,12 @@ namespace AuthenticationServer.WebApi.Repository
             _context = context;
         }
 
-        public User GetUserById(int userId)
+        public AuthenticationServer.Domain.Entities.User GetUserById(int userId)
         {
             return _context.Users.Where(obj => obj.Id == userId).FirstOrDefault();
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<AuthenticationServer.Domain.Entities.User> GetUsers()
         {
             return _context.Users.ToList();
         }
@@ -34,22 +33,22 @@ namespace AuthenticationServer.WebApi.Repository
             return _context.Users.Any(c => c.Email == email);
         }
 
-        public void AddUser(User user)
+        public void AddUser(AuthenticationServer.Domain.Entities.User user)
         {
             _context.Users.Add(user);
         }
 
-        public void AddUsers(IEnumerable<User> usersList)
+        public void AddUsers(IEnumerable<AuthenticationServer.Domain.Entities.User> usersList)
         {
             _context.Users.AddRange(usersList);
         }
 
-        public void DeleteUser(User user)
+        public void DeleteUser(AuthenticationServer.Domain.Entities.User user)
         {
             _context.Users.Remove(user);
         }
 
-        public void UpdateUser(User user)
+        public void UpdateUser(AuthenticationServer.Domain.Entities.User user)
         {
             _context.Update(user);
         }
@@ -58,5 +57,6 @@ namespace AuthenticationServer.WebApi.Repository
         {
             return (_context.SaveChanges() >= 0);
         }
+
     }
 }

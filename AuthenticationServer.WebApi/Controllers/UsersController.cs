@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.Domain.Entities;
 using AuthenticationServer.WebApi.Repository;
+using AuthenticationServer.Repository.User;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
