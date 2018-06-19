@@ -2,8 +2,8 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.Domain.Entities;
+using AuthenticationServer.Domain.Models;
 using AuthenticationServer.Repository.User;
 
 namespace AuthenticationServer.WebApi.Controllers
@@ -48,7 +48,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [HttpPost("api/users")]
-        public IActionResult Post([FromBody] AuthenticationServer.Domain.Models.UserDto user)
+        public IActionResult Post([FromBody] UserDto user)
         {
             if (user == null)
             {
@@ -80,7 +80,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [HttpPut("api/users/{userId}")]
-        public IActionResult Put([FromBody] AuthenticationServer.Domain.Models.UserDto user, int userId)
+        public IActionResult Put([FromBody] UserDto user, int userId)
         {
             if (user == null)
             {
