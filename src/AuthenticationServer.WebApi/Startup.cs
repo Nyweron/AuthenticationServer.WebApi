@@ -2,6 +2,7 @@
 using AuthenticationServer.Data;
 using AuthenticationServer.Domain.Entities;
 using AuthenticationServer.Settings.Options;
+using AuthenticationServer.Repository;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace AuthenticationServer.WebApi
 {
@@ -48,7 +50,9 @@ namespace AuthenticationServer.WebApi
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+            RepositoryContainer.Update(builder);
             Container = builder.Build();
+
            //services.AddScoped<IUserRepository, UserRepository>();
             return new AutofacServiceProvider(Container);
 
