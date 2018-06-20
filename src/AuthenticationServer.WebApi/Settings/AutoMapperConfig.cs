@@ -9,8 +9,7 @@ namespace AuthenticationServer.WebApi.Settings
         public static IMapper GetMapper()
             => new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserDto>();
-                cfg.CreateMap<UserDto, User>();
+                cfg.CreateMap<UserDto ,User>();
             }).CreateMapper();
     }
 }
