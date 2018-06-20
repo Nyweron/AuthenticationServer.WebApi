@@ -1,13 +1,17 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using AuthenticationServer.WebApi.Data;
 using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -31,6 +35,24 @@ namespace AuthenticationServer.WebApi
             {
                 c.SwaggerDoc("v1", new Info { Title = "Contacts API", Version = "v1" });
             });
+
+            // ===== Add Jwt Authentication ========
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+
+            var jwtOptions = new JwtOptions();
+            Configuration.GetSection("jwt").Bind(jwtOptions);
+
+            services.AddAuthentication()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                        //ValidateLifetime = true
+                    };
+                });
 
             // ===== Add services to the collection ========
             services.AddMvc();
@@ -64,7 +86,7 @@ namespace AuthenticationServer.WebApi
             // RepositoryContainer.Update(builder);
             Container = builder.Build();
 
-         // ===== Create the IServiceProvider based on the container. ========
+            // ===== Create the IServiceProvider based on the container. ========
             return new AutofacServiceProvider(Container);
         }
 
@@ -93,6 +115,7 @@ namespace AuthenticationServer.WebApi
             });
 
             app.UseResponseCaching();
+            app.UseAuthentication();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }

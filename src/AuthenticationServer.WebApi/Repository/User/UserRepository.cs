@@ -24,6 +24,16 @@ namespace AuthenticationServer.WebApi.Repository.User
             return _context.Users.ToList();
         }
 
+        public Password GetPasswordByUserId(int userId)
+        {
+            return _context.Passwords.Where(obj => obj.UserId == userId).FirstOrDefault();
+        }
+
+        public Entities.User GetUserByEmail(string email)
+        {
+            return  _context.Users.Where(c => c.Email == email).FirstOrDefault();
+        }
+
         public bool UserExists(int userId)
         {
             return _context.Users.Any(c => c.Id == userId);
@@ -58,7 +68,5 @@ namespace AuthenticationServer.WebApi.Repository.User
         {
             return (_context.SaveChanges() >= 0);
         }
-
-
     }
 }
