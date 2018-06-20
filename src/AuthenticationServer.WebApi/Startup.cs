@@ -1,15 +1,19 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using AuthenticationServer.WebApi.Data;
 using AuthenticationServer.WebApi.Repository;
 using AuthenticationServer.WebApi.Settings;
 using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -38,9 +42,26 @@ namespace AuthenticationServer.WebApi
             services.AddResponseCaching();
 
             services.Configure<DatabaseOptions>(Configuration.GetSection("sql"));
+            services.Configure<DatabaseOptions>(Configuration.GetSection("jwt"));
             services.AddEntityFrameworkSqlServer()
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
+
+
+            var jwtOptions = new JwtOptions();
+            Configuration.GetSection("jwt").Bind(jwtOptions);
+            // ===== Add Jwt Authentication ========
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services.AddAuthentication()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                    };
+                });
 
             // Configute Autofac
             var builder = new ContainerBuilder();
@@ -79,6 +100,7 @@ namespace AuthenticationServer.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseAuthentication();
             app.UseResponseCaching();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
