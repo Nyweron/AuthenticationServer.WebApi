@@ -1,5 +1,7 @@
 ﻿using System;
 using AuthenticationServer.WebApi.Data;
+using AuthenticationServer.WebApi.Repository;
+using AuthenticationServer.WebApi.Settings;
 using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -40,12 +42,15 @@ namespace AuthenticationServer.WebApi
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
 
+            // Configute Autofac
             var builder = new ContainerBuilder();
+            // Loads the already configured items from services object
             builder.Populate(services);
+
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            // RepositoryContainer.Update(builder);
+            RepositoryContainer.Update(builder);
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);

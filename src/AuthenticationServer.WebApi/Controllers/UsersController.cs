@@ -12,11 +12,15 @@ namespace AuthenticationServer.WebApi.Controllers
     {
         private IUserRepository _userRepository;
         private ILogger<UsersController> _logger;
+        private IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository, ILogger<UsersController> logger)
+        public UsersController(IUserRepository userRepository,
+         ILogger<UsersController> logger,
+         IMapper mapper)
         {
             _userRepository = userRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("api/users")]
@@ -67,7 +71,7 @@ namespace AuthenticationServer.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userEntity = Mapper.Map<User>(user);
+            var userEntity = _mapper.Map<User>(user);
             _userRepository.AddUser(userEntity);
 
             if (!_userRepository.Save())

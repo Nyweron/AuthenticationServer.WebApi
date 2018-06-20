@@ -10,6 +10,7 @@ namespace AuthenticationServer.WebApi.Settings
             => new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserDto>();
+                cfg.CreateMap<UserDto, User>();
             }).CreateMapper();
     }
 }
