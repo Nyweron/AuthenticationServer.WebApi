@@ -148,10 +148,6 @@ namespace AuthenticationServer.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<string>("Password");
-
-                    b.Property<string>("Role");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");

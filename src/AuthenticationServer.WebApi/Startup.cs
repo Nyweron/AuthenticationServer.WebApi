@@ -1,18 +1,13 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using AuthenticationServer.WebApi.Data;
 using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -31,55 +26,21 @@ namespace AuthenticationServer.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // ===== Add Swagger ========
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Contacts API", Version = "v1" });
             });
 
-            // ===== Add Jwt Authentication ========
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-
-            // var jwtOptions = new JwtOptions();
-            // Configuration.GetSection("jwt").Bind(jwtOptions);
-
-            // services.AddAuthentication()
-            //     .AddJwtBearer(cfg =>
-            //     {
-            //         cfg.TokenValidationParameters = new TokenValidationParameters
-            //         {
-            //             ValidIssuer = jwtOptions.Issuer,
-            //             ValidateAudience = false,
-            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
-            //             //ValidateLifetime = true
-            //         };
-            //     });
-
-            // ===== Add services to the collection ========
             services.AddMvc();
             services.AddMemoryCache();
             services.AddResponseCaching();
 
-            // ===== Add Database options ========
             services.Configure<DatabaseOptions>(Configuration.GetSection("sql"));
             services.AddEntityFrameworkSqlServer()
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
 
-            // ===== Create the container builder. ========
             var builder = new ContainerBuilder();
-
-            // =====  Register dependencies, populate the services from ========
-            // the collection, and build the container. If you want
-            // to dispose of the container at the end of the app,
-            // be sure to keep a reference to it as a property or field.
-            //
-            // Note that Populate is basically a foreach to add things
-            // into Autofac that are in the collection. If you register
-            // things in Autofac BEFORE Populate then the stuff in the
-            // ServiceCollection can override those things; if you register
-            // AFTER Populate those registrations can override things
-            // in the ServiceCollection. Mix and match as needed.
             builder.Populate(services);
             builder.RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .AsImplementedInterfaces()
@@ -87,7 +48,6 @@ namespace AuthenticationServer.WebApi
             // RepositoryContainer.Update(builder);
             Container = builder.Build();
 
-            // ===== Create the IServiceProvider based on the container. ========
             return new AutofacServiceProvider(Container);
         }
 
@@ -95,21 +55,17 @@ namespace AuthenticationServer.WebApi
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
-            IApplicationLifetime applicationLifetime,
-            AuthenticationServerDbContext context)
+            IApplicationLifetime applicationLifetime)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
             loggerFactory.AddNLog();
-
-            //context.Database.Migrate();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            // ===== Add Swagger ========
             app.UseSwagger();
 
             //http://localhost:5000/swagger/
@@ -119,7 +75,6 @@ namespace AuthenticationServer.WebApi
             });
 
             app.UseResponseCaching();
-            //app.UseAuthentication();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
