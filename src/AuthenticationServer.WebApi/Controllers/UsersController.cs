@@ -11,6 +11,7 @@ namespace AuthenticationServer.WebApi.Controllers
     public class UsersController : Controller
     {
         private IUserRepository _userRepository;
+
         private ILogger<UsersController> _logger;
 
         public UsersController(IUserRepository userRepository, ILogger<UsersController> logger)

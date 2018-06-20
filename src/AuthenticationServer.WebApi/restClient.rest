@@ -21,6 +21,8 @@ Content-Type: application/json
   "email": "emai9l@wp.pl",
   "isActive": true,
   "lastLogin": null,
+  "password":"test",
+  "role":"user",
   "usersAuthTokens": null,
   "passwords": null,
   "usersGroups": null
@@ -28,3 +30,15 @@ Content-Type: application/json
 
 ###
 DELETE {{url}}/users/{{userId}}
+
+###
+GET {{url}}/account/me
+
+###
+POST {{url}}/account/login
+Content-Type: application/json
+
+{
+  "email": "email@wp.pl1",
+  "password": "test"
+}

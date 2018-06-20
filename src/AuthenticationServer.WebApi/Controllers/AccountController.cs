@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AuthenticationServer.WebApi.Entities;
 using AuthenticationServer.WebApi.Models;
@@ -12,8 +7,6 @@ using AuthenticationServer.WebApi.Repository.User;
 using AuthenticationServer.WebApi.Security.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
@@ -30,10 +23,14 @@ namespace AuthenticationServer.WebApi.Controllers
             _passwordHasher = passwordHasher;
         }
 
+
+        [HttpGet("api/account/me")]
+        public ActionResult Get() => Content(User.Identity.Name);
+
         [HttpPost("api/account/login")]
-        public async Task<JsonWebToken> Login([FromBody] LoginDto model)
+        public async Task<ActionResult> Login([FromBody] LoginDto model)
         {
-            if(!_userRepository.EmailExists(model.Email))
+            if (!_userRepository.EmailExists(model.Email))
             {
                 throw new Exception("Invalid email.");
             }
@@ -44,10 +41,10 @@ namespace AuthenticationServer.WebApi.Controllers
                 throw new Exception("Invalid credentials.");
             }
 
-            var userPassword = _userRepository.GetPasswordByUserId(user.Id).Pwd;
+            // var userPassword = _userRepository.GetPasswordByUserId(user.Id);
 
             var passwordResult = _passwordHasher.VerifyHashedPassword(user,
-                userPassword, model.Password);
+                user.Password, model.Password);
 
             if (passwordResult == PasswordVerificationResult.Failed)
             {
@@ -55,7 +52,7 @@ namespace AuthenticationServer.WebApi.Controllers
             }
             await Task.CompletedTask;
 
-            return _jwtProvider.Create(user.Id, user.UsersGroups);
+            _jwtProvider.Create(user.Email, user.FirstName);
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
@@ -63,20 +60,34 @@ namespace AuthenticationServer.WebApi.Controllers
         [HttpPost("api/account/register")]
         public async Task<object> Register([FromBody] RegisterDto model)
         {
-            var user = new IdentityUser
+            var user = _userRepository.GetUserByEmail(model.Email);
+            if (user != null)
             {
-                UserName = model.Email,
-                Email = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return await GenerateJwtToken(model.Email, user);
+                throw new Exception("Username is in use.");
             }
 
-            throw new ApplicationException("UNKNOWN_ERROR");
+            user = new User
+            {
+                Email = model.Email,
+                Password = model.Password,
+                Role = model.Role ?? "user",
+                IsActive = true,
+                FirstName = "John",
+                LastName = "Five",
+                Login = "Johny5"
+            };
+
+            var passwordHash = _passwordHasher.HashPassword(user, model.Password);
+            if (string.IsNullOrWhiteSpace(passwordHash))
+            {
+                throw new ArgumentException("Invalid password.",
+                    nameof(passwordHash));
+            }
+
+            _userRepository.AddUser(user);
+            await Task.CompletedTask;
+
+            return Created(nameof(Get), null);
         }
 
     }

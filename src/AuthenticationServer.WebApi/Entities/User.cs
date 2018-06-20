@@ -32,6 +32,9 @@ namespace AuthenticationServer.WebApi.Entities
         public bool IsActive { get; set; }
         public DateTime? LastLogin { get; set; }
 
+        public string Role{get;set;}
+        public string Password{get;set;}
+
         public ICollection<UserAuthToken> UsersAuthTokens { get; set; }
         public ICollection<Password> Passwords { get; set; }
         public ICollection<UserGroup> UsersGroups { get; set; }

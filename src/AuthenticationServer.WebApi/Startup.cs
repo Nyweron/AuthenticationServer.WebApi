@@ -8,6 +8,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,22 +38,22 @@ namespace AuthenticationServer.WebApi
             });
 
             // ===== Add Jwt Authentication ========
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
 
-            var jwtOptions = new JwtOptions();
-            Configuration.GetSection("jwt").Bind(jwtOptions);
+            // var jwtOptions = new JwtOptions();
+            // Configuration.GetSection("jwt").Bind(jwtOptions);
 
-            services.AddAuthentication()
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidateAudience = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
-                        //ValidateLifetime = true
-                    };
-                });
+            // services.AddAuthentication()
+            //     .AddJwtBearer(cfg =>
+            //     {
+            //         cfg.TokenValidationParameters = new TokenValidationParameters
+            //         {
+            //             ValidIssuer = jwtOptions.Issuer,
+            //             ValidateAudience = false,
+            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+            //             //ValidateLifetime = true
+            //         };
+            //     });
 
             // ===== Add services to the collection ========
             services.AddMvc();
@@ -94,11 +95,14 @@ namespace AuthenticationServer.WebApi
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
-            IApplicationLifetime applicationLifetime)
+            IApplicationLifetime applicationLifetime,
+            AuthenticationServerDbContext context)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
             loggerFactory.AddNLog();
+
+            //context.Database.Migrate();
 
             if (env.IsDevelopment())
             {
@@ -115,7 +119,7 @@ namespace AuthenticationServer.WebApi
             });
 
             app.UseResponseCaching();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }

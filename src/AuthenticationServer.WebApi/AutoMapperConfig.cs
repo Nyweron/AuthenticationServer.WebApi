@@ -2,7 +2,7 @@ using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.WebApi.Entities;
 using AutoMapper;
 
-namespace AuthenticationServer.WebApi.Settings
+namespace AuthenticationServer.WebApi
 {
     public static class AutoMapperConfig
     {
