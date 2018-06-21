@@ -47,6 +47,9 @@ namespace AuthenticationServer.WebApi
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AuthenticationServerDbContext>();
 
+            services.AddAuthorization(a => a.AddPolicy("admin", policy => policy.RequireRole("admin")));
+            services.AddAuthorization(b => b.AddPolicy("user", policyb => policyb.RequireRole("user")));
+
             var jwtOptions = new JwtOptions();
             Configuration.GetSection("jwt").Bind(jwtOptions);
             // ===== Add Jwt Authentication ========
@@ -61,9 +64,9 @@ namespace AuthenticationServer.WebApi
                 {
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
                     };
                 });
 

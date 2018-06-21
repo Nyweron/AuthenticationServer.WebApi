@@ -36,13 +36,21 @@ namespace AuthenticationServer.WebApi.Controllers
             _jwtOptions = jwtOptions.Value;
         }
 
-        [Authorize]
-        [HttpGet("api/account/protected")]
-        public async Task<object> Protected()
+        [Authorize(Policy = "admin")]
+        [HttpGet("api/account/Protectedadmin")]
+        public async Task<object> Protectedadmin()
         {
-            return "Protected area";
+            return "Protected area Admin";
         }
 
+        [Authorize(Policy = "user")]
+        [HttpGet("api/account/Protecteduser")]
+        public async Task<object> Protecteduser()
+        {
+            return "Protected area User";
+        }
+
+        [Authorize]
         [HttpGet("api/account/me")]
         public ActionResult Get() => Content(User.Identity.Name);
 
@@ -50,9 +58,11 @@ namespace AuthenticationServer.WebApi.Controllers
         public async Task<object> Login([FromBody] LoginDto model)
         {
             var result = _userRepository.GetUserByEmail(model.Email);
-
-            var appUser = _userRepository.GetUserByEmail(model.Email);
-            return await GenerateJwtToken(model.Email, appUser);
+            if (result != null && result.Password == model.Password)
+            {
+                var appUser = _userRepository.GetUserByEmail(model.Email);
+                return await GenerateJwtToken(model.Email, appUser);
+            }
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
@@ -79,26 +89,27 @@ namespace AuthenticationServer.WebApi.Controllers
 
         private async Task<object> GenerateJwtToken(string email, User user)
         {
+            var now = DateTime.UtcNow;
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var jwtOptions = new JwtOptions();
             _configuration.GetSection("jwt").Bind(jwtOptions);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtOptions.ExpiryMinutes));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = now.AddMinutes(_jwtOptions.ExpiryMinutes);
 
             var token = new JwtSecurityToken(
-                _jwtOptions.Issuer,
-                _jwtOptions.Issuer,
-                claims,
-                expires : expires,
-                signingCredentials : creds
+                issuer: _jwtOptions.Issuer,
+                claims: claims,
+                notBefore: now,
+                expires: expires,
+                signingCredentials: credentials
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -111,6 +122,7 @@ namespace AuthenticationServer.WebApi.Controllers
 
             [Required]
             public string Password { get; set; }
+            public string Role { get; set; }
 
         }
 
@@ -122,6 +134,7 @@ namespace AuthenticationServer.WebApi.Controllers
             [Required]
             [StringLength(100)]
             public string Password { get; set; }
+            public string Role { get; set; }
         }
     }
 }

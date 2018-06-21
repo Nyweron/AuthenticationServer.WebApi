@@ -1,8 +1,8 @@
 @url = http://localhost:5000/api
 
-@userId = 2
+@userId = 0
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbWFpMmxAd3AucGwiLCJqdGkiOiJlODk2ZTUwYS05Y2ZjLTQ5YTYtYmU0ZS03NzU3Y2JjZWEyN2QiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYiLCJleHAiOjE1MzAwMzU0MjIsImlzcyI6ImF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiYXV0aGVudGljYXRpb25TZXJ2ZXIifQ.Hf6cps3xMkl4DUTJrfMilqXCIqeGrmTmGP5fyH-BKso
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQHdwLnBsIiwianRpIjoiMjhmNmIyMWUtMDdkZi00ZGVjLTlkYmUtNzQ5YjJlOTFmZDQwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoidXNlciIsIm5iZiI6MTUyOTYxMjA0NSwiZXhwIjoxNTI5NjEyMTA1LCJpc3MiOiJhdXRoZW50aWNhdGlvblNlcnZlciJ9.BYSS8oHR3_mo8yBthUdgpc80t3fzfG41-j9Zj66N32Q
 
 ###
 GET {{url}}/users
@@ -15,14 +15,14 @@ POST {{url}}/users
 Content-Type: application/json
 
 {
-  "firstName": "FirstName8",
+  "firstName": "admin",
   "lastName": "LastName8",
   "login": "Login8",
-  "email": "emai2l@wp.pll",
+  "email": "admin@wp.pl",
   "isActive": true,
   "lastLogin": null,
-  "password":"test",
-  "role":"user",
+  "password":"admin1",
+  "role":"admin",
   "usersAuthTokens": null,
   "passwords": null,
   "usersGroups": null
@@ -33,14 +33,26 @@ DELETE {{url}}/users/{{userId}}
 
 ###
 GET {{url}}/account/me
+Authorization: Bearer {{token}}
 
 ###
 POST {{url}}/account/login
 Content-Type: application/json
 
 {
-  "email": "emai2l@wp.pl",
-  "password": "test"
+  "email": "admin@wp.pl",
+  "password": "admin1",
+  "role":"admin"
+}
+
+###
+POST {{url}}/account/login
+Content-Type: application/json
+
+{
+  "email": "user@wp.pl",
+  "password": "user1",
+  "role":"user"
 }
 
 ###
@@ -55,5 +67,17 @@ Content-Type: application/json
 ###
 GET {{url}}/account/protected
 Authorization: Bearer {{token}}
+
+
+###
+GET {{url}}/account/protectedadmin
+Authorization: Bearer {{token}}
+
+###
+GET {{url}}/account/protecteduser
+Authorization: Bearer {{token}}
+
+
+
 
 
