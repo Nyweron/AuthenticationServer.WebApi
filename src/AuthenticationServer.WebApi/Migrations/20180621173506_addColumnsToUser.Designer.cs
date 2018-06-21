@@ -4,14 +4,16 @@ using AuthenticationServer.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthenticationServer.WebApi.Migrations
 {
     [DbContext(typeof(AuthenticationServerDbContext))]
-    partial class AuthenticationServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180621173506_addColumnsToUser")]
+    partial class addColumnsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

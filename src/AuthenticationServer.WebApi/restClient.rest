@@ -2,7 +2,7 @@
 
 @userId = 2
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbWFpMmxAd3AucGwiLCJqdGkiOiI3ZGY5MjlhZC00MmVjLTRiMGEtOTY2YS1lNTQyM2UwZmEzMzUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE1Mjk5NDE4OTV9.FwfS_nEnrI_YZnLSKExS8cfuw6-993LXrm4qQZ7YfMM
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbWFpMmxAd3AucGwiLCJqdGkiOiJlODk2ZTUwYS05Y2ZjLTQ5YTYtYmU0ZS03NzU3Y2JjZWEyN2QiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYiLCJleHAiOjE1MzAwMzU0MjIsImlzcyI6ImF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiYXV0aGVudGljYXRpb25TZXJ2ZXIifQ.Hf6cps3xMkl4DUTJrfMilqXCIqeGrmTmGP5fyH-BKso
 
 ###
 GET {{url}}/users
@@ -18,9 +18,11 @@ Content-Type: application/json
   "firstName": "FirstName8",
   "lastName": "LastName8",
   "login": "Login8",
-  "email": "emai3l@wp.pl",
+  "email": "emai2l@wp.pll",
   "isActive": true,
   "lastLogin": null,
+  "password":"test",
+  "role":"user",
   "usersAuthTokens": null,
   "passwords": null,
   "usersGroups": null

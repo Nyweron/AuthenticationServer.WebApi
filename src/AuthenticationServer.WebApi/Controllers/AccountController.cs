@@ -51,10 +51,8 @@ namespace AuthenticationServer.WebApi.Controllers
         {
             var result = _userRepository.GetUserByEmail(model.Email);
 
-                var appUser = _userRepository.GetUserByEmail(model.Email);
-                return await GenerateJwtToken(model.Email, appUser);
-
-
+            var appUser = _userRepository.GetUserByEmail(model.Email);
+            return await GenerateJwtToken(model.Email, appUser);
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
@@ -64,10 +62,16 @@ namespace AuthenticationServer.WebApi.Controllers
         {
             var user = new User
             {
-                Email = model.Email
+                FirstName = "test1",
+                LastName = "test01",
+                Login = "test001",
+                IsActive = true,
+                Email = model.Email,
+                Password = model.Password
             };
 
             _userRepository.AddUser(user);
+            _userRepository.Save();
             return await GenerateJwtToken(model.Email, user);
 
             throw new ApplicationException("UNKNOWN_ERROR");
