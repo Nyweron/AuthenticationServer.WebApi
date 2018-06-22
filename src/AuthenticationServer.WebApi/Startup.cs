@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using AuthenticationServer.WebApi.Data;
 using AuthenticationServer.WebApi.Repository;
-using AuthenticationServer.WebApi.Settings;
 using AuthenticationServer.WebApi.Settings.Options;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;

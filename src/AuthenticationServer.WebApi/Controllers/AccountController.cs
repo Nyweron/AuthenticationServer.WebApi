@@ -7,7 +7,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AuthenticationServer.WebApi.Entities;
+using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.WebApi.Repository.User;
+using AuthenticationServer.WebApi.Services.Auth;
 using AuthenticationServer.WebApi.Settings.Options;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -19,27 +21,31 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         private readonly JwtOptions _jwtOptions;
+        private readonly IJwtProvider _jwtProvider;
         private readonly IUserRepository _userRepository;
         private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
 
         public AccountController(
             IUserRepository userRepository,
             Microsoft.Extensions.Configuration.IConfiguration configuration,
-            IOptions<JwtOptions> jwtOptions
+            IOptions<JwtOptions> jwtOptions,
+            IJwtProvider jwtProvider
         )
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _jwtOptions = jwtOptions.Value;
+            _jwtProvider = jwtProvider;
         }
 
         [Authorize(Policy = "admin")]
         [HttpGet("api/account/Protectedadmin")]
         public async Task<object> Protectedadmin()
         {
+            await Task.CompletedTask;
             return "Protected area Admin";
         }
 
@@ -47,6 +53,7 @@ namespace AuthenticationServer.WebApi.Controllers
         [HttpGet("api/account/Protecteduser")]
         public async Task<object> Protecteduser()
         {
+            await Task.CompletedTask;
             return "Protected area User";
         }
 
@@ -61,7 +68,7 @@ namespace AuthenticationServer.WebApi.Controllers
             if (result != null && result.Password == model.Password)
             {
                 var appUser = _userRepository.GetUserByEmail(model.Email);
-                return await GenerateJwtToken(model.Email, appUser);
+                return await _jwtProvider.GenerateJwtToken(model.Email, appUser);
             }
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
@@ -82,59 +89,10 @@ namespace AuthenticationServer.WebApi.Controllers
 
             _userRepository.AddUser(user);
             _userRepository.Save();
-            return await GenerateJwtToken(model.Email, user);
+            return await _jwtProvider.GenerateJwtToken(model.Email, user);
 
             throw new ApplicationException("UNKNOWN_ERROR");
         }
 
-        private async Task<object> GenerateJwtToken(string email, User user)
-        {
-            var now = DateTime.UtcNow;
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
-
-            var jwtOptions = new JwtOptions();
-            _configuration.GetSection("jwt").Bind(jwtOptions);
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = now.AddMinutes(_jwtOptions.ExpiryMinutes);
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                claims: claims,
-                notBefore: now,
-                expires: expires,
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        public class LoginDto
-        {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            public string Password { get; set; }
-            public string Role { get; set; }
-
-        }
-
-        public class RegisterDto
-        {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100)]
-            public string Password { get; set; }
-            public string Role { get; set; }
-        }
     }
 }
