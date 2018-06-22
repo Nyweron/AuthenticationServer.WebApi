@@ -26,7 +26,7 @@ namespace AuthenticationServer.WebApi.Controllers
         [HttpGet("api/users")]
         public IActionResult GetUsers()
         {
-            var userEntities = _userRepository.GetUsers();
+            var userEntities = _userRepository.GetAll();
             return Ok(userEntities);
         }
 
@@ -41,7 +41,7 @@ namespace AuthenticationServer.WebApi.Controllers
                     return NotFound();
                 }
 
-                var userEntities = _userRepository.GetUserById(userId);
+                var userEntities = _userRepository.Get(userId);
                 return Ok(userEntities);
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace AuthenticationServer.WebApi.Controllers
             }
 
             var userEntity = _mapper.Map<User>(user);
-            _userRepository.AddUser(userEntity);
+            _userRepository.Add(userEntity);
 
             if (!_userRepository.Save())
             {
@@ -126,8 +126,8 @@ namespace AuthenticationServer.WebApi.Controllers
                 return NotFound();
             }
 
-            var user = _userRepository.GetUserById(id);
-            _userRepository.DeleteUser(user);
+            var user = _userRepository.Get(id);
+            _userRepository.Remove(user);
 
             if (!_userRepository.Save())
             {

@@ -87,7 +87,7 @@ namespace AuthenticationServer.WebApi.Controllers
                 Password = model.Password
             };
 
-            _userRepository.AddUser(user);
+            _userRepository.Add(user);
             _userRepository.Save();
             return await _jwtProvider.GenerateJwtToken(model.Email, user);
 
