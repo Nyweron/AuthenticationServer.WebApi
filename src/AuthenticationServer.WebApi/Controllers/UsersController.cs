@@ -8,7 +8,7 @@ using AuthenticationServer.WebApi.Models;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private IUserRepository _userRepository;
         private ILogger<UsersController> _logger;
@@ -23,14 +23,14 @@ namespace AuthenticationServer.WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("api/users")]
+        [HttpGet]
         public IActionResult GetUsers()
         {
             var userEntities = _userRepository.GetAll();
             return Ok(userEntities);
         }
 
-        [HttpGet("api/users/{userId}")]
+        [HttpGet("{userId}")]
         public IActionResult Get(int userId)
         {
             try
@@ -51,7 +51,7 @@ namespace AuthenticationServer.WebApi.Controllers
             }
         }
 
-        [HttpPost("api/users")]
+        [HttpPost]
         public IActionResult Post([FromBody] UserDto user)
         {
             if (user == null)
@@ -83,7 +83,7 @@ namespace AuthenticationServer.WebApi.Controllers
             return Created("", null);
         }
 
-        [HttpPut("api/users/{userId}")]
+        [HttpPut("{userId}")]
         public IActionResult Put([FromBody] UserDto user, int userId)
         {
             if (user == null)
@@ -118,7 +118,7 @@ namespace AuthenticationServer.WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("api/users/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             if (!_userRepository.UserExists(id))
