@@ -21,7 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationServer.WebApi.Controllers
 {
-    public partial class AccountController : Controller
+    public partial class AccountController : BaseController
     {
         private readonly JwtOptions _jwtOptions;
         private readonly IJwtProvider _jwtProvider;
@@ -42,7 +42,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [Authorize(Policy = "admin")]
-        [HttpGet("api/account/Protectedadmin")]
+        [HttpGet("Protectedadmin")]
         public async Task<object> Protectedadmin()
         {
             await Task.CompletedTask;
@@ -50,7 +50,7 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [Authorize(Policy = "user")]
-        [HttpGet("api/account/Protecteduser")]
+        [HttpGet("Protecteduser")]
         public async Task<object> Protecteduser()
         {
             await Task.CompletedTask;
@@ -58,10 +58,10 @@ namespace AuthenticationServer.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("api/account/me")]
+        [HttpGet("me")]
         public ActionResult Get() => Content(User.Identity.Name);
 
-        [HttpPost("api/account/login")]
+        [HttpPost("login")]
         public async Task<object> Login([FromBody] LoginDto model)
         {
             var result = _userRepository.GetUserByEmail(model.Email);
@@ -74,7 +74,7 @@ namespace AuthenticationServer.WebApi.Controllers
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
 
-        [HttpPost("api/account/register")]
+        [HttpPost("register")]
         public async Task<object> Register([FromBody] RegisterDto model)
         {
             var user = new User
