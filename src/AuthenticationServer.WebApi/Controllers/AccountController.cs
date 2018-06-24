@@ -11,11 +11,13 @@ using AuthenticationServer.WebApi.Models;
 using AuthenticationServer.WebApi.Repository.User;
 using AuthenticationServer.WebApi.Services.Auth;
 using AuthenticationServer.WebApi.Settings.Options;
+using AutoMapper;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,18 +29,24 @@ namespace AuthenticationServer.WebApi.Controllers
     private readonly IJwtProvider _jwtProvider;
     private readonly IUserRepository _userRepository;
     private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
+    private ILogger<AccountController> _logger;
+       private IMapper _mapper;
 
     public AccountController(
       IUserRepository userRepository,
       Microsoft.Extensions.Configuration.IConfiguration configuration,
       IOptions<JwtOptions> jwtOptions,
-      IJwtProvider jwtProvider
+      IJwtProvider jwtProvider,
+      ILogger<AccountController> logger,
+      IMapper mapper
     )
     {
       _userRepository = userRepository;
       _configuration = configuration;
       _jwtOptions = jwtOptions.Value;
       _jwtProvider = jwtProvider;
+      _logger = logger;
+      _mapper = mapper;
     }
 
     [Authorize(Policy = "admin")]
@@ -65,6 +73,24 @@ namespace AuthenticationServer.WebApi.Controllers
     public async Task<object> Login([FromBody] LoginDto model)
     {
       var result = _userRepository.GetUserByEmail(model.Email);
+      if (result == null)
+      {
+        _logger.LogError($"User with that email {model.Email} wasn't found when accessing to AccountController/login");
+        return NotFound();
+      }
+
+      if (result.Password != model.Password)
+      {
+        _logger.LogError($"Password is incorrect. When accessing to AccountController/login");
+        return NotFound();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        _logger.LogError($"ModelState is not valid. When accessing to AccountController/login");
+        return BadRequest(ModelState);
+      }
+
       if (result != null && result.Password == model.Password)
       {
         var appUser = _userRepository.GetUserByEmail(model.Email);
@@ -77,21 +103,41 @@ namespace AuthenticationServer.WebApi.Controllers
     [HttpPost("register")]
     public async Task<object> Register([FromBody] RegisterDto model)
     {
-      var user = new User
+      if (model == null)
       {
-        FirstName = "test1",
-        LastName = "test01",
-        Login = "test001",
-        IsActive = true,
-        Email = model.Email,
-        Password = model.Password
-      };
+        _logger.LogError($"Can not register because registerDto is null. When accessing to AccountController/register");
+        return NotFound();
+      }
 
-      _userRepository.Add(user);
-      _userRepository.Save();
-      return await _jwtProvider.GenerateJwtToken(model.Email, user);
+      if (!ModelState.IsValid)
+      {
+        _logger.LogError($"ModelState is not valid. When accessing to AccountController/register");
+        return BadRequest(ModelState);
+      }
 
-      throw new ApplicationException("UNKNOWN_ERROR");
+      // var user = new User
+      // {
+      //   FirstName = model.FirstName,
+      //   LastName = model.LastName,
+      //   Login = model.Login,
+      //   IsActive = true,
+      //   Email = model.Email,
+      //   Password = model.Password
+      // };
+
+      var userEntity = _mapper.Map<User>(model);
+      await _userRepository.AddAsync(userEntity);
+
+      if (!_userRepository.SaveAsync().Result)
+      {
+        _logger.LogError($"Register is not valid. Error in Save().  When accessing to AccountController/register");
+        return StatusCode(500, "A problem happend while handling your request.");
+      }
+
+
+      // _userRepository.Add(user);
+      // _userRepository.Save();
+      return await _jwtProvider.GenerateJwtToken(model.Email, userEntity);
     }
 
   }
