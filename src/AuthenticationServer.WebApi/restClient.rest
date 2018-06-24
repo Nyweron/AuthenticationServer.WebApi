@@ -67,8 +67,12 @@ POST {{url}}/account/register
 Content-Type: application/json
 
 {
-  "email": "emai2l@wp.pl",
-  "password": "test"
+  "email": "emai99l@wp.pl",
+  "password": "test",
+  "Login": "test",
+  "LastName": "test",
+  "FirstName": "test",
+  "role":"test"
 }
 
 ###
