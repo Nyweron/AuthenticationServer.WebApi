@@ -1,6 +1,6 @@
 @url = http://localhost:5000/api
 
-@userId = 12
+@userId = 14
 
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQHdwLnBsIiwianRpIjoiMmU5MmI2Y2EtMmQ5Yi00NDkzLTkwNTMtYTVhZDkyMTFiZGViIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoidXNlciIsIm5iZiI6MTUyOTY0ODIxNSwiZXhwIjoxNTI5NjQ4Mjc1LCJpc3MiOiJhdXRoZW50aWNhdGlvblNlcnZlciJ9.EXQN_pNdCVu9crcxYVDmhG8J-NiFMMhOOgmFSHv_aoM
 
@@ -15,14 +15,14 @@ POST {{url}}/users
 Content-Type: application/json
 
 {
-  "firstName": "userwithoutright1",
-  "lastName": "LastName81",
-  "login": "Login8",
-  "email": "userwithoutright1@wp.pl",
+  "firstName": "userwithoutrightr1",
+  "lastName": "LastName8r1",
+  "login": "Login8r",
+  "email": "userwithoutright51@wp.pl",
   "isActive": true,
   "lastLogin": null,
-  "password":"userwithoutright1",
-  "role":"userwithoutright1",
+  "password":"userwithoutright51",
+  "role":"userwithoutright15",
   "usersAuthTokens": null,
   "passwords": null,
   "usersGroups": null

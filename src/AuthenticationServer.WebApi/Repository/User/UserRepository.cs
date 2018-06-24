@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AuthenticationServer.WebApi.Data;
 using AuthenticationServer.WebApi.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.WebApi.Repository.User
 {
@@ -49,15 +50,14 @@ namespace AuthenticationServer.WebApi.Repository.User
 
     public async Task<Password> GetPasswordByUserIdAsync(int userId)
     {
-      //How make return await...
-      await Task.CompletedTask;
-      return AuthenticationServerDbContext.Passwords.Where(obj => obj.UserId == userId).FirstOrDefault();
+      //Is this good way?
+      return await AuthenticationServerDbContext.Passwords.Where(obj => obj.UserId == userId).FirstOrDefaultAsync();
     }
 
     public async Task<Entities.User> GetUserByEmailAsync(string email)
     {
       //Is this good way?
-      return AuthenticationServerDbContext.Users.FindAsync(email).Result;
+      return await AuthenticationServerDbContext.Users.Where(c => c.Email == email).FirstOrDefaultAsync();
     }
 
     public async Task<bool> UserExistsAsync(int userId)
@@ -70,8 +70,7 @@ namespace AuthenticationServer.WebApi.Repository.User
     public async Task<bool> EmailExistsAsync(string email)
     {
       //Is this good way?
-      var emailExist = await AuthenticationServerDbContext.Users.FindAsync(email);
-      return emailExist != null ? true : false;
+      return await AuthenticationServerDbContext.Users.AnyAsync(c => c.Email == email);
     }
 
     public async Task<bool> SaveAsync()
