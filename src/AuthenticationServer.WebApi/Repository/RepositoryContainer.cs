@@ -3,15 +3,15 @@ using Autofac;
 
 namespace AuthenticationServer.WebApi.Repository
 {
-    public static class RepositoryContainer
+  public static class RepositoryContainer
+  {
+    public static void Update(ContainerBuilder builder)
     {
-        public static void Update(ContainerBuilder builder)
-        {
-            builder.RegisterAssemblyTypes(typeof(RepositoryContainer).Assembly)
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-            builder.RegisterInstance(AutoMapperConfig.GetMapper())
-                .SingleInstance();
-        }
+      builder.RegisterAssemblyTypes(typeof(RepositoryContainer).Assembly)
+        .AsImplementedInterfaces()
+        .InstancePerLifetimeScope();
+      builder.RegisterInstance(AutoMapperConfig.GetMapper())
+        .SingleInstance();
     }
+  }
 }
