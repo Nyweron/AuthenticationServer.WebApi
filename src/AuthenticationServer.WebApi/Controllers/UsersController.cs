@@ -26,7 +26,7 @@ namespace AuthenticationServer.WebApi.Controllers
     [HttpGet]
     public IActionResult GetUsers()
     {
-      var userEntities = _userRepository.GetAll();
+      var userEntities = _userRepository.GetAllAsync().Result;
       return Ok(userEntities);
     }
 
@@ -35,13 +35,13 @@ namespace AuthenticationServer.WebApi.Controllers
     {
       try
       {
-        if (!_userRepository.UserExists(userId))
+        if (!_userRepository.UserExistsAsync(userId).Result)
         {
           _logger.LogInformation($"User with id {userId} wasn't found when accessing to UsersController/Get(int userId).");
           return NotFound();
         }
 
-        var userEntities = _userRepository.Get(userId);
+        var userEntities = _userRepository.GetAsync(userId).Result;
         return Ok(userEntities);
       }
       catch (Exception ex)
@@ -60,7 +60,7 @@ namespace AuthenticationServer.WebApi.Controllers
         return BadRequest();
       }
 
-      if (_userRepository.EmailExists(user.Email))
+      if (_userRepository.EmailExistsAsync(user.Email).Result)
       {
         _logger.LogInformation($"The Email {user.Email} exist in database, use other email. UsersController/Post(UserDto user).");
         return BadRequest($"The Email {user.Email} exist, user other email.");
@@ -72,10 +72,11 @@ namespace AuthenticationServer.WebApi.Controllers
       }
 
       var userEntity = _mapper.Map<User>(user);
-      _userRepository.Add(userEntity);
+      _userRepository.AddAsync(userEntity);
 
-      if (!_userRepository.Save())
+      if (!_userRepository.SaveAsync().Result)
       {
+       _logger.LogError($"Add User is not valid. Error in SaveAsync(). When accessing to UserController/Post");
         return StatusCode(500, "A problem happend while handling your request.");
       }
 
@@ -121,16 +122,18 @@ namespace AuthenticationServer.WebApi.Controllers
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-      if (!_userRepository.UserExists(id))
+      if (!_userRepository.UserExistsAsync(id).Result)
       {
+        _logger.LogInformation($"User with id: {id} is not exist. When accessing to UsersController/Delete(int id).");
         return NotFound();
       }
 
-      var user = _userRepository.Get(id);
+      var user = _userRepository.GetAsync(id).Result;
       _userRepository.Remove(user);
 
-      if (!_userRepository.Save())
+      if (!_userRepository.SaveAsync().Result)
       {
+        _logger.LogError($"Delete User is not valid. Error in SaveAsync(). When accessing to UserController/Delete");
         return StatusCode(500, "A problem happend while handling your request.");
       }
       //TODO: Implement Realistic Implementation
