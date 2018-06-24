@@ -42,11 +42,6 @@ namespace AuthenticationServer.WebApi.Repository
       return Context.Set<TEntity>().Where(predicate);
     }
 
-    public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-      throw new NotImplementedException();
-    }
-
     public TEntity Get(int id)
     {
       return Context.Set<TEntity>().Find(id);

@@ -12,7 +12,6 @@ namespace AuthenticationServer.WebApi.Repository
     IEnumerable<TEntitiy> GetAll();
     Task<IEnumerable<TEntitiy>> GetAllAsync();
     IEnumerable<TEntitiy> Find(Expression<Func<TEntitiy, bool>> predicate);
-    Task<IEnumerable<TEntitiy>> FindAsync(Expression<Func<TEntitiy, bool>> predicate);
 
     void Add(TEntitiy entity);
     Task AddAsync(TEntitiy entity);
