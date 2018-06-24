@@ -115,16 +115,6 @@ namespace AuthenticationServer.WebApi.Controllers
         return BadRequest(ModelState);
       }
 
-      // var user = new User
-      // {
-      //   FirstName = model.FirstName,
-      //   LastName = model.LastName,
-      //   Login = model.Login,
-      //   IsActive = true,
-      //   Email = model.Email,
-      //   Password = model.Password
-      // };
-
       var userEntity = _mapper.Map<User>(model);
       await _userRepository.AddAsync(userEntity);
 
