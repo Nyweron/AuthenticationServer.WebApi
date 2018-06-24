@@ -72,7 +72,7 @@ namespace AuthenticationServer.WebApi.Controllers
     [HttpPost("login")]
     public async Task<object> Login([FromBody] LoginDto model)
     {
-      var result = _userRepository.GetUserByEmail(model.Email);
+      var result = _userRepository.GetUserByEmailAsync(model.Email).Result;
       if (result == null)
       {
         _logger.LogError($"User with that email {model.Email} wasn't found when accessing to AccountController/login");
@@ -93,8 +93,7 @@ namespace AuthenticationServer.WebApi.Controllers
 
       if (result != null && result.Password == model.Password)
       {
-        var appUser = _userRepository.GetUserByEmail(model.Email);
-        return await _jwtProvider.GenerateJwtToken(model.Email, appUser);
+        return await _jwtProvider.GenerateJwtToken(model.Email, result);
       }
 
       throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
@@ -124,9 +123,6 @@ namespace AuthenticationServer.WebApi.Controllers
         return StatusCode(500, "A problem happend while handling your request.");
       }
 
-
-      // _userRepository.Add(user);
-      // _userRepository.Save();
       return await _jwtProvider.GenerateJwtToken(model.Email, userEntity);
     }
 
