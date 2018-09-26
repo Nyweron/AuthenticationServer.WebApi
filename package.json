@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:digital-riders/squad/API/AuthenticationService.git"
+    "url": "git@github.com:Nyweron/AuthenticationServer.WebApi.git"
   },
   "license": "ISC"
 }
